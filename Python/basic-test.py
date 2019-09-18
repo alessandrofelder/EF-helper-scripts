@@ -14,19 +14,19 @@ import os
 import time
 import datetime
 
-#workingDir = "/media/alessandro/Seagate Expansion Drive/disuse-OP/"
-workingDir = "/home/alessandro/Documents/code/EF-test-images/"
+workingDir =  "/media/alessandro/Seagate Expansion Drive/disuse-OP-study/"
+#workingDir = "/home/alessandro/Documents/code/EF-test-images/"
 outputDir = "/media/alessandro/Seagate Expansion Drive/"
 print(os.listdir(workingDir))
-localDir = u'quick-binary-images/'
+localDir = u'thresholded-stacks-75//'
 files = os.listdir(workingDir+localDir)
 print(len(files))
 print(files)
 
 #wanted
-reps = [4]
-was = [4]
-maxShifts = [1,2,4,8,16,32,64]
+reps = [3]
+was = [1]
+maxShifts = [1]
 nVectors = [100]
 skipRatios = [10]
 
@@ -65,7 +65,7 @@ for image in files:
 						name = name+"-runs-"+str(rep)+"-weighted-"+str(wa)+"-maxShift-"+str(maxShift)+"-vectors-"+str(vectors)+"-ratio-"+str(ratio)
 						
 						startTime = time.time()
-						wrapper = cs.run("org.bonej.wrapperPlugins.EllipsoidFactorWrapper",False,["inputImgPlus",source,"nVectors", vectors, "vectorIncrement", 1/2.3, "skipRatio",ratio,"contactSensitivity",1,"maxIterations",100, "maxDrift",maxShift*1.73,"seedOnDistanceRidge",True,"seedOnSurface",False,"showSecondaryImages",True,"runs",rep,"weightedAverageN",wa])
+						wrapper = cs.run("org.bonej.wrapperPlugins.EllipsoidFactorWrapper",False,["inputImgPlus",source,"nVectors", vectors, "vectorIncrement", 1/2.3, "skipRatio",ratio,"contactSensitivity",1,"maxIterations",100, "maxDrift",maxShift*1.73,"seedOnDistanceRidge",True,"seedOnTopologyPreserving",False,"showSecondaryImages",True,"runs",rep,"weightedAverageN",wa])
 						wrapperInstance = wrapper.get()
 						outputs = wrapperInstance.getOutput("ellipsoidFactorOutputImages");
 							

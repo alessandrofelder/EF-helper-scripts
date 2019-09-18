@@ -24,11 +24,11 @@ print(len(files))
 print(files)
 
 #wanted
-reps = [1]
-was = [1]
-maxShifts = [1]
+reps = [2]
+was = [2]
+maxShifts = [15]
 nVectors = [100]
-skipRatios = [10]
+skipRatios = [1]
 
 logfilename = outputDir+'logfile-'+str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))+'.txt'
 f = open(logfilename, 'wb')
@@ -66,7 +66,7 @@ for image in files:
 						name = name+"-runs-"+str(rep)+"-weighted-"+str(wa)+"-maxShift-"+str(maxShift)+"-vectors-"+str(vectors)+"-ratio-"+str(ratio)
 						
 						startTime = time.time()
-						wrapper = cs.run("org.bonej.wrapperPlugins.EllipsoidFactorWrapper",False,["inputImgPlus",source,"nVectors", vectors, "vectorIncrement", 0.1*1/2.3, "skipRatio",ratio,"skeletonThreshold",0.3,"contactSensitivity",1,"maxIterations",100, "maxDrift",maxShift*1.73,"seedOnDistanceRidge",True,"seedOnSurface",False,"showSecondaryImages",True,"runs",rep,"weightedAverageN",wa])
+						wrapper = cs.run("org.bonej.wrapperPlugins.EllipsoidFactorWrapper",False,["inputImgPlus",source,"nVectors", vectors, "vectorIncrement", 0.1*1/2.3, "skipRatio",ratio,"skeletonThreshold",0.3,"contactSensitivity",5,"maxIterations",100, "maxDrift",maxShift*1.73,"seedOnDistanceRidge",True,"seedOnSurface",False,"showSecondaryImages",True,"runs",rep,"weightedAverageN",wa])
 						wrapperInstance = wrapper.get()
 						outputs = wrapperInstance.getOutput("ellipsoidFactorOutputImages");
 							

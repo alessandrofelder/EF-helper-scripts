@@ -1,13 +1,58 @@
-setwd("/media/alessandro/Seagate Expansion Drive/disuse-OP-study/")
+setwd("/media/alessandro/CT Ext.HDD002/ale/detectable-effect-study-6-runs/")
 library(ggplot2)
 library(dplyr)
 library(kSamples)
+
+colours <- c("red","blue","green","black","purple","yellow","white")
+#friedman's test
+
+histo.disuse <- read.csv("/media/alessandro/CT Ext.HDD002/ale/detectable-effect-study-6-runs/clean-histo-parameters-detectable-effect-images-EF.csv")
+
+groups <- rep(c("005","050","055","500","505","550","555"),length(histo.disuse$name)/7)
+histo.disuse$group <- groups
+
+ordering <- rep(c(3,2,6,1,5,4,7),length(histo.disuse$name)/7)
+histo.disuse <- histo.disuse[histo.disuse$name!="name",]
+histo.disuse <- histo.disuse[order(histo.disuse$name),]
+histo.disuse <- histo.disuse[order(ordering),]
+
+drawHisto <- function(i)
+{
+  hist.data <- as.numeric(as.character(histo.disuse[i,2:51]))
+  hist.data <- hist.data/sum(hist.data)
+  
+  hist.title <- unlist(strsplit(as.character(histo.disuse[i,1]),'-'))
+  hist.title <- hist.title[length(hist.title)]
+  hist.title <- unlist(strsplit(as.character(hist.title),'\\.'))[1]
+  hist.title <- paste0(substring(hist.title,1,1)," spheres, ",substring(hist.title,2,2)," rods, ", substring(hist.title,3,3)," plates")
+  
+  barplot(hist.data, las=2, xlab="", col = colours[floor((i-1)/4)+1], ylim = c(0,0.15), main=hist.title)
+  bottom.range <- -1; 
+  top.range <- 1;
+  axis.label <- seq(bottom.range,top.range,length.out=11)
+  axis(side=1,las=2,at=seq(0.1,60.5,6), label=axis.label)
+  
+}
+
+pdf(paste0("histograms detectable effect.pdf"),paper='a4',width = 10, height = 20)
+par(mfrow=c(7,4))
+
+for (i in c(1,5,9,13,17,21,25)) {
+  drawHisto(i)
+  drawHisto(i+1)
+  drawHisto(i+2)
+  drawHisto(i+3)
+}
+dev.off()
 
 #set upt
 show.filling<-FALSE
 nBins <- 50
 smoothing.factors <- c(1)#,2,4,8,20)
 kuerzels <- c("EF")#c("EF","BC","AB","A","B","C")
+
+
+
 
 for(smoothing.factor in smoothing.factors){
   getInfoFromName <- function(namestring){
@@ -53,11 +98,10 @@ for(smoothing.factor in smoothing.factors){
     
     #histo.disuse <- read.csv(paste0("clean-histogram-data-rep-dev-",kuerzel,".csv"), stringsAsFactors=FALSE)
     
-    histo.disuse <- read.csv("/media/alessandro/Seagate Expansion Drive/disuse-OP-study-pre-BRS/histo-parameters-disuse-test-EF.csv", stringsAsFactors = FALSE)
-    #histo.disuse <- read.csv(paste0(kuerzel,"-histo-parameters-disuse-averaged-clean",".csv"), stringsAsFactors=FALSE)
+    histo.disuse <- read.csv("/media/alessandro/CT Ext.HDD002/ale/detectable-effect-study-6-runs/clean-histo-parameters-detectable-effect-images-EF.csv")
     histo.disuse <- histo.disuse[order(histo.disuse$name),]
     histo.disuse <- histo.disuse[histo.disuse$name!="name",]
-    k<-c()
+    
     if(nchar(kuerzel)==2){
       k <- kuerzel
     } else {
@@ -219,3 +263,4 @@ for(smoothing.factor in smoothing.factors){
     }
   }
 }
+

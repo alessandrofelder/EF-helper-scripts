@@ -23,8 +23,8 @@ import os
 import time
 import csv
 
-workingDir = "/media/alessandro/Seagate Expansion Drive/disuse-OP-study-pre-BRS/"
-localDir = "thresholded-stacks-75/"
+workingDir = "/media/alessandro/CT Ext.HDD002/ale/detectable-effect-study-6-runs/"
+localDir = "test-images/"
 files = os.listdir(workingDir+localDir)
 print(len(files))
 
@@ -32,11 +32,12 @@ print(len(files))
 
 histoBins = range(-98,102,4)
 
-parameter_file = open(workingDir+'histo-parameters-disuse-test-EF.csv', mode='w') 
+parameter_file = open(workingDir+'histo-parameters-detectable-effect-images-EF.csv', mode='w') 
+print(parameter_file)
 parameter_writer = csv.writer(parameter_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 parameter_writer.writerow(["name",histoBins])
 for image in files:
-	sourceName = workingDir+"EF/"+image + "-runs-3-weighted-1-maxShift-1-vectors-100-ratio-10" + "-EF.tif";
+	sourceName = workingDir+"EF/"+image + "-runs-6-weighted-1-maxShift-300-vectors-100-ratio-10" + "-EF.tif";
 	print(sourceName);
 	
 	startTime = time.time()
@@ -59,7 +60,7 @@ for image in files:
 	print(histoMults)
 	total = histo.distributionCount()
 	print(total)
-	meanEFestimate = sum(histoMults)/total#not exact, based on histo!
+	meanEFestimate = sum(histoMults)/total#not exact, based on histogram!
 	print(meanEFestimate)
 	print("done")
 	timeTaken = time.time()-startTime
@@ -71,6 +72,7 @@ for image in files:
 	print("done writing")
 	IJ.run("Close All")
 
+parameter_file.close();
 print("done with everything")
 					
 

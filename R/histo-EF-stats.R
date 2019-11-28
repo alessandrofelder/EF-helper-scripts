@@ -1,4 +1,4 @@
-setwd("/media/alessandro/Seagate Expansion Drive/disuse-OP-study/")
+setwd("/media/alessandro/Seagate Expansion Drive/disuse-study-final-with-topo/")
 library(ggplot2)
 library(dplyr)
 library(kSamples)
@@ -53,7 +53,7 @@ for(smoothing.factor in smoothing.factors){
     
     #histo.disuse <- read.csv(paste0("clean-histogram-data-rep-dev-",kuerzel,".csv"), stringsAsFactors=FALSE)
     
-    histo.disuse <- read.csv("/media/alessandro/Seagate Expansion Drive/disuse-OP-study-pre-BRS/histo-parameters-disuse-test-EF.csv", stringsAsFactors = FALSE)
+    histo.disuse <- read.csv("/media/alessandro/Seagate Expansion Drive/disuse-study-final-with-topo/histo-parameters-disuse-study-with-topo-EF.csv", stringsAsFactors = FALSE)
     #histo.disuse <- read.csv(paste0(kuerzel,"-histo-parameters-disuse-averaged-clean",".csv"), stringsAsFactors=FALSE)
     histo.disuse <- histo.disuse[order(histo.disuse$name),]
     histo.disuse <- histo.disuse[histo.disuse$name!="name",]
@@ -64,10 +64,10 @@ for(smoothing.factor in smoothing.factors){
       k<-paste0(kuerzel,"-")
     }
     #histo.disuse <- histo.disuse[grepl(paste0(k,"6"),histo.disuse$name),]
-    bv.tv <- read.csv("bv-tv-tmp-sam.csv", stringsAsFactors=FALSE)
+    #bv.tv <- read.csv("bv-tv-tmp-sam.csv", stringsAsFactors=FALSE)
     filling <- read.csv("filling.csv", stringsAsFactors = FALSE)
-    histo.disuse <- as.data.frame(histo.disuse)
-    smi.data <- read.csv("smi-bvtv-65days-med3thr85.csv", stringsAsFactors=FALSE)
+    #histo.disuse <- as.data.frame(histo.disuse)
+    #smi.data <- read.csv("smi-bvtv-65days-med3thr85.csv", stringsAsFactors=FALSE)
     colors <- c('blue','red')       
     states <- c('control leg','disuse leg')
     normalise <- TRUE
@@ -104,7 +104,6 @@ for(smoothing.factor in smoothing.factors){
           ef.label <- paste0(kuerzel," ")
         }
         main.label <- paste0(ef.label,sample.label,states[index])
-        smi.info <- paste0("SMI (SMI+/SMI-):\n ",smi.data[sampleID, 5]," (",smi.data[sampleID, 3],"/",smi.data[sampleID,4],")\n Concave fraction: ",smi.data$Concave[sampleID])
         if(normalise)
         {
           hist.data <- hist.data/sum(hist.data)
@@ -127,7 +126,6 @@ for(smoothing.factor in smoothing.factors){
         axis.label <- seq(bottom.range,top.range,length.out=11)
         axis(side=1,las=2,at=seq(0.1,nBins/50/smoothing.factor*60.5,nBins/50/smoothing.factor*6), label=axis.label)
         #axis(side=1,las=2,at=seq(0.1,30.1,3), label=axis.label)
-        mtext(smi.info, side=1, line=4, cex=0.5)
         if((sampleID-1)%%2==1)
         {
           #prev.hist.data <- as.numeric(gsub("L","",histo.disuse[sampleID-1,-1]))
@@ -163,7 +161,7 @@ for(smoothing.factor in smoothing.factors){
         }
       }
       
-      title(paste0("trabecular compartment, proximal tibial metaphysis \n\n",kuerzel,norm.string,"distributions\n SMI/SMI+/SMI-/Concave Fraction \n\n ",day.label, "\n control <BV/TV> = ",bv.tv$bv.tv.control[bv.tv$day==day], "\n disuse <BV/TV> = ",bv.tv$bv.tv.disuse[bv.tv$day==day]), outer=TRUE)
+      title(paste0("trabecular compartment, proximal tibial metaphysis \n\n",kuerzel,norm.string,"distributions\n",day.label, outer=TRUE))
       dev.off()
     }
     overall.overall.data <- rbind(overall.overall.data, overall.data)

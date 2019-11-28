@@ -23,7 +23,7 @@ import os
 import time
 import csv
 
-workingDir = "/media/alessandro/Seagate Expansion Drive/disuse-OP-study-pre-BRS/"
+workingDir = "/media/alessandro/Seagate Expansion Drive/disuse-study-final/"
 localDir = "thresholded-stacks-75/"
 files = os.listdir(workingDir+localDir)
 print(len(files))
@@ -36,7 +36,7 @@ parameter_file = open(workingDir+'histo-parameters-disuse-test-EF.csv', mode='w'
 parameter_writer = csv.writer(parameter_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 parameter_writer.writerow(["name",histoBins])
 for image in files:
-	sourceName = workingDir+"EF/"+image + "-runs-3-weighted-1-maxShift-1-vectors-100-ratio-10" + "-EF.tif";
+	sourceName = workingDir+"EF/"+image + "-runs-6-weighted-1-maxShift-1-vectors-100-ratio-1-maxIts-50-filter-0-contact-5-step-0.217391304348" + "-EF.tif";
 	print(sourceName);
 	
 	startTime = time.time()

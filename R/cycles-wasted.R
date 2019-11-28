@@ -33,6 +33,10 @@ for(filename in filenames)
   }
   dev.off()
   png(paste0("~/Documents/",filename,"-iteration-histogram.png"))
-  hist(flattened.iterations, xlab = "iterations until improvement found", main = paste0("Iteration histogram for ", filename, " with typical parameters"))
+  histogram <- hist(flattened.iterations, xlab = "iterations until improvement found", main = paste0("Iteration histogram for ", filename, " with typical parameters"))
+  sorted.flattened.iterations <- sort(flattened.iterations)
+  l <- length(sorted.flattened.iterations)
+  equal.chance.iterations <- sorted.flattened.iterations[l-2*length(as.numeric(iterations.until.improvement[,1]))]
+  print(equal.chance.iterations)
   dev.off()
 }
